@@ -1,0 +1,63 @@
+<div class="login-container">
+  <div class="login-box">
+    <div class="header">
+      <h1>Portal Direx</h1>
+      <p>Sistema de Gestão Empresarial</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Acesse sua conta</h2>
+        <p>Digite suas credenciais para acessar o sistema</p>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="form">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="seu@email.com"
+            required
+            [disabled]="isLoading"
+            class="input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input
+            id="senha"
+            type="password"
+            [(ngModel)]="senha"
+            name="senha"
+            placeholder="••••••••"
+            required
+            [disabled]="isLoading"
+            class="input"
+          />
+        </div>
+
+        <div *ngIf="error" class="error-message">
+          {{ error }}
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Entrar</span>
+          <span *ngIf="isLoading">Entrando...</span>
+        </button>
+
+        <div class="signup-link">
+          <span>Não tem uma conta? </span>
+          <a routerLink="/cadastro">Cadastre-se</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="footer">
+      <p>© 2025 Portal Direx. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</div>
