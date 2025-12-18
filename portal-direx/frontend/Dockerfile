@@ -11,10 +11,9 @@ RUN npm install
 # Copiar código fonte e configurações
 COPY . .
 
-# Build da aplicação Angular para produção
 ARG API_URL
 ENV API_URL=${API_URL}
-RUN npm run build -- --configuration production
+RUN npm run build
 
 # Stage 2: Runtime com Nginx
 FROM nginx:alpine
@@ -23,7 +22,6 @@ WORKDIR /usr/share/nginx/html
 # Remover arquivos padrão do nginx
 RUN rm -rf ./*
 
-# Copiar arquivos buildados do Angular
 COPY --from=build /app/dist/portal-direx/browser .
 
 # Copiar configuração customizada do Nginx
