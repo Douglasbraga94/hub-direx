@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Frontend continua no Docker
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: portal-direx-frontend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    environment:
+      - API_URL=${API_URL:-http://localhost:8080/api}
+    networks:
+      - portal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  portal-network:
+    driver: bridge
