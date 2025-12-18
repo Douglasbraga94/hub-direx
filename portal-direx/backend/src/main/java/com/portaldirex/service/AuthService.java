@@ -57,7 +57,7 @@ public class AuthService {
         Usuario usuario = new Usuario();
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
-        usuario.setSenha(passwordEncoder.encode(request.getSenha()));
+        usuario.setSenha(request.getSenha());
         
         usuario = usuarioRepository.save(usuario);
         
@@ -72,7 +72,7 @@ public class AuthService {
         );
     }
     
-    private void registrarAuditoria(Long usuarioId, HttpServletRequest request, String status) {
+    private void registrarAuditoria(String usuarioId, HttpServletRequest request, String status) {
         AuditoriaLogin auditoria = new AuditoriaLogin();
         auditoria.setUsuarioId(usuarioId);
         auditoria.setIpLogin(getClientIP(request));

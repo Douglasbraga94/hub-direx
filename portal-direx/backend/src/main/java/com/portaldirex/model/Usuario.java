@@ -10,8 +10,8 @@ import java.util.Set;
 @Data
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "VARCHAR(36)")
+    private String id;
 
     @Column(nullable = false)
     private String nome;

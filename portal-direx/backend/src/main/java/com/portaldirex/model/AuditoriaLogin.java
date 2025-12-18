@@ -13,7 +13,7 @@ public class AuditoriaLogin {
     private Long id;
 
     @Column(name = "usuario_id")
-    private Long usuarioId;
+    private String usuarioId;
 
     @Column(name = "data_login")
     private LocalDateTime dataLogin;

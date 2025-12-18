@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Data
 public class Perfil {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "VARCHAR(36)")
+    private String id;
 
     @Column(nullable = false)
     private String nome;
