@@ -31,7 +31,10 @@ services:
       dockerfile: Dockerfile
     container_name: portal-direx-backend
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - portal-network
     environment:
       SPRING_PROFILE: ${SPRING_PROFILE:-prod}
       DB_HOST: ${DB_HOST}
