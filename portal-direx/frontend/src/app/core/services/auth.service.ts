@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { Router } from "@angular/router"
 import { BehaviorSubject, type Observable, tap } from "rxjs"
-import { environment } from "../../../environments/environment"
+import { ConfigService } from "./config.service"
 
 export interface LoginRequest {
   email: string
@@ -30,12 +30,13 @@ export interface AuthResponse {
 export class AuthService {
   private http = inject(HttpClient)
   private router = inject(Router)
+  private config = inject(ConfigService)
 
   private currentUserSubject = new BehaviorSubject<any>(this.getUserFromStorage())
   public currentUser$ = this.currentUserSubject.asObservable()
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credentials).pipe(
+    return this.http.post<AuthResponse>(`${this.config.apiUrl}/auth/login`, credentials).pipe(
       tap((response) => {
         this.setSession(response)
       }),
@@ -43,7 +44,7 @@ export class AuthService {
   }
 
   cadastro(data: CadastroRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/cadastro`, data).pipe(
+    return this.http.post<AuthResponse>(`${this.config.apiUrl}/auth/cadastro`, data).pipe(
       tap((response) => {
         this.setSession(response)
       }),

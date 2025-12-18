@@ -4,7 +4,16 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http"
 import { AppComponent } from "./app/app.component"
 import { routes } from "./app/app.routes"
 import { authInterceptor } from "./app/core/interceptors/auth.interceptor"
+import { ConfigService } from "./app/core/services/config.service"
 
-bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes), provideHttpClient(withInterceptors([authInterceptor]))],
-}).catch((err) => console.error(err))
+const configService = new ConfigService()
+
+configService.loadConfig().then(() => {
+  bootstrapApplication(AppComponent, {
+    providers: [
+      provideRouter(routes),
+      provideHttpClient(withInterceptors([authInterceptor])),
+      { provide: ConfigService, useValue: configService },
+    ],
+  }).catch((err) => console.error(err))
+})

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "portal-direx": {
+    "portal-direx-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,12 +17,20 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/portal-direx",
+            "outputPath": "dist/portal-direx-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "tsConfig": "tsconfig.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              }
+            ],
             "styles": ["src/styles.css"],
             "scripts": []
           },
@@ -56,14 +64,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "portal-direx:build"
+            "buildTarget": "portal-direx-frontend:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "portal-direx:build:production"
+              "buildTarget": "portal-direx-frontend:build:production"
             },
             "development": {
-              "buildTarget": "portal-direx:build:development"
+              "buildTarget": "portal-direx-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
