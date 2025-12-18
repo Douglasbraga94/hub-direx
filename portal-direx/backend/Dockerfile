@@ -30,9 +30,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
 
-ENTRYPOINT ["sh", "-c", "java -jar \
-  -Dspring.profiles.active=${SPRING_PROFILE:-prod} \
-  -Dspring.datasource.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false \
-  -Dspring.datasource.username=${DB_USER} \
-  -Dspring.datasource.password=${DB_PASSWORD} \
-  app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
