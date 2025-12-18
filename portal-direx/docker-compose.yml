@@ -31,10 +31,6 @@ services:
       dockerfile: Dockerfile
     container_name: portal-direx-backend
     restart: unless-stopped
-    ports:
-      - "${BACKEND_PORT:-8080}:8080"
-    networks:
-      - portal-network
     environment:
       SPRING_PROFILE: ${SPRING_PROFILE:-prod}
       DB_HOST: ${DB_HOST}
@@ -45,6 +41,10 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
       CORS_ORIGINS: ${CORS_ORIGINS}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - portal-network
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
@@ -63,6 +63,8 @@ services:
     restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      - backend
     networks:
       - portal-network
     healthcheck:
