@@ -19,6 +19,9 @@ public class Sistema {
 
     private String url;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "dt_criacao")
     private LocalDateTime dtCriacao;
 
