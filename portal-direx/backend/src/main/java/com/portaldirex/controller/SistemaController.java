@@ -21,6 +21,9 @@ public class SistemaController {
     
     @GetMapping("/{id}")
     public ResponseEntity<Sistema> buscarPorId(@PathVariable Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID deve ser um número positivo");
+        }
         return ResponseEntity.ok(sistemaService.buscarPorId(id));
     }
 }
