@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
@@ -40,6 +41,9 @@ public class Usuario {
 
     @PrePersist
     protected void onCreate() {
+        if (id == null || id.isEmpty()) {
+            id = UUID.randomUUID().toString();
+        }
         dtCriacao = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (status == null) {

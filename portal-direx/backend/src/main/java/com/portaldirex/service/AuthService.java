@@ -55,9 +55,10 @@ public class AuthService {
         }
         
         Usuario usuario = new Usuario();
+        usuario.setId(java.util.UUID.randomUUID().toString());
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
-        usuario.setSenha(request.getSenha());
+        usuario.setSenha(passwordEncoder.encode(request.getSenha()));
         
         usuario = usuarioRepository.save(usuario);
         
