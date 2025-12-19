@@ -8,7 +8,7 @@ RUN npm config set fetch-retries 5 && \
 
 # Copiar package files e instalar dependências com cache
 COPY package*.json ./
-RUN npm ci --legacy-peer-deps --prefer-offline --no-audit
+RUN npm install --legacy-peer-deps --prefer-offline --no-audit
 
 # Copiar código e build
 COPY . .
