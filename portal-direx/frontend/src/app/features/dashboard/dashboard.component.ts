@@ -36,12 +36,19 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  setFilter(filter: "all" | "web" | "api" | "admin"): void {
+    this.activeFilter = filter
+  }
+
   get filteredSistemas(): Sistema[] {
     return this.sistemas.filter((s) => {
       const matchQuery =
         s.nome.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         s.sigla.toLowerCase().includes(this.searchQuery.toLowerCase())
-      return matchQuery
+
+      const matchFilter = this.activeFilter === "all" || s.tipo === this.activeFilter
+
+      return matchQuery && matchFilter
     })
   }
 

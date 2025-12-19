@@ -49,11 +49,36 @@
       />
     </div>
 
+    <!-- Adicionando eventos de clique e binding de classe active nos filtros -->
     <div class="filters" role="list">
-      <button class="chip active" data-filter="all">Todos</button>
-      <button class="chip" data-filter="web">Web</button>
-      <button class="chip" data-filter="api">API</button>
-      <button class="chip" data-filter="admin">Admin</button>
+      <button 
+        class="chip" 
+        [class.active]="activeFilter === 'all'"
+        (click)="setFilter('all')"
+      >
+        Todos
+      </button>
+      <button 
+        class="chip" 
+        [class.active]="activeFilter === 'web'"
+        (click)="setFilter('web')"
+      >
+        Web
+      </button>
+      <button 
+        class="chip" 
+        [class.active]="activeFilter === 'api'"
+        (click)="setFilter('api')"
+      >
+        API
+      </button>
+      <button 
+        class="chip" 
+        [class.active]="activeFilter === 'admin'"
+        (click)="setFilter('admin')"
+      >
+        Admin
+      </button>
     </div>
   </div>
 
