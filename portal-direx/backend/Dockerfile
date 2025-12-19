@@ -1,19 +1,21 @@
-# Multi-stage build para otimizar o tamanho da imagem
-
-# Stage 1: Build
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
+# Copiar pom.xml primeiro para cache de dependências
 COPY pom.xml .
+RUN mvn dependency:go-offline -B || true
+
+# Copiar código fonte
 COPY src ./src
 
-RUN mvn clean package -DskipTests -B -q
+# Build com timeouts e configurações otimizadas
+RUN mvn clean package -DskipTests -B -T 1C \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120
 
-# Stage 2: Runtime
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# Copiar apenas o JAR compilado do stage anterior
 COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
