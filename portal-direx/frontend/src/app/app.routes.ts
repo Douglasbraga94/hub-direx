@@ -1,15 +1,17 @@
 import type { Routes } from "@angular/router"
 import { authGuard } from "./core/guards/auth.guard"
+import { autoLoginGuard } from "./core/guards/auto-login.guard"
 
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "/login",
-    pathMatch: "full",
+    loadComponent: () => import("./features/auth/login/login.component").then((m) => m.LoginComponent),
+    canActivate: [autoLoginGuard],
   },
   {
     path: "login",
     loadComponent: () => import("./features/auth/login/login.component").then((m) => m.LoginComponent),
+    canActivate: [autoLoginGuard],
   },
   {
     path: "cadastro",
