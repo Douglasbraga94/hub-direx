@@ -9,6 +9,7 @@ export interface Sistema {
   sigla: string
   url: string
   tipo?: "web" | "api" | "admin"
+  type?: "web" | "api" | "admin"
   dtCriacao: string
   updatedAt: string
   gestorId: number

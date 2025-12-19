@@ -46,7 +46,9 @@ export class DashboardComponent implements OnInit {
         s.nome.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         s.sigla.toLowerCase().includes(this.searchQuery.toLowerCase())
 
-      const matchFilter = this.activeFilter === "all" || (s.tipo && s.tipo === this.activeFilter)
+      const sistemaType = s.type || s.tipo
+      console.log("[v0] Sistema:", s.nome, "Type:", sistemaType, "Filter:", this.activeFilter)
+      const matchFilter = this.activeFilter === "all" || sistemaType === this.activeFilter
 
       return matchQuery && matchFilter
     })
