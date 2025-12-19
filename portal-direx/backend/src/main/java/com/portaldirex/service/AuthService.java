@@ -11,8 +11,6 @@ import com.portaldirex.repository.UsuarioRepository;
 import com.portaldirex.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +22,23 @@ public class AuthService {
     private final AuditoriaLoginRepository auditoriaRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
     
     public AuthResponse login(LoginRequest request, HttpServletRequest httpRequest) {
         try {
-            authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
-            );
+            // authenticationManager.authenticate(
+            //     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
+            // );
             
             Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
             
+            if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
+                throw new RuntimeException("Credenciais inválidas");
+            }
+            
             String token = jwtUtil.generateToken(usuario.getEmail());
             
-            // Registrar auditoria
-            registrarAuditoria(usuario.getId(), httpRequest, "SUCCESS");
+            // registrarAuditoria(usuario.getId(), httpRequest, "SUCCESS");
             
             return new AuthResponse(
                 token,
@@ -64,8 +64,7 @@ public class AuthService {
         
         String token = jwtUtil.generateToken(usuario.getEmail());
         
-        // Registrar auditoria
-        registrarAuditoria(usuario.getId(), httpRequest, "SUCCESS");
+        // registrarAuditoria(usuario.getId(), httpRequest, "SUCCESS");
         
         return new AuthResponse(
             token,
