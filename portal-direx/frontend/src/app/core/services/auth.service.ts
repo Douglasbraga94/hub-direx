@@ -70,11 +70,15 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem("token")
+    const token = localStorage.getItem("token")
+    console.log("[v0] AuthService.getToken():", token ? "Token encontrado" : "Sem token")
+    return token
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken()
+    const hasToken = !!this.getToken()
+    console.log("[v0] AuthService.isAuthenticated():", hasToken)
+    return hasToken
   }
 
   getCurrentUser(): any {
