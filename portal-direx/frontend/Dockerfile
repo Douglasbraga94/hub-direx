@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copiar package files primeiro para aproveitar cache do Docker
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps --quiet
 
 # Copiar código fonte e configurações
 COPY . .
