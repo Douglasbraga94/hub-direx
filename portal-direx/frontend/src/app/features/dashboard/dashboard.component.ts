@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
         s.nome.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         s.sigla.toLowerCase().includes(this.searchQuery.toLowerCase())
 
-      const matchFilter = this.activeFilter === "all" || s.tipo === this.activeFilter
+      const matchFilter = this.activeFilter === "all" || (s.tipo && s.tipo === this.activeFilter)
 
       return matchQuery && matchFilter
     })
