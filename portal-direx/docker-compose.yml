@@ -1,29 +1,4 @@
-version: '3.8'
-
 services:
-  # Banco de dados MySQL (comentado - usar banco externo existente)
-  # Descomente apenas se precisar de um banco local para desenvolvimento
-  # db:
-  #   image: mysql:8.0
-  #   container_name: portal-direx-db
-  #   restart: unless-stopped
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-  #     MYSQL_DATABASE: ${DB_NAME}
-  #     MYSQL_USER: ${DB_USER}
-  #     MYSQL_PASSWORD: ${DB_PASSWORD}
-  #   ports:
-  #     - "${DB_PORT:-3306}:3306"
-  #   volumes:
-  #     - mysql_data:/var/lib/mysql
-  #   networks:
-  #     - portal-network
-  #   healthcheck:
-  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-
   # Backend Spring Boot
   backend:
     build:
@@ -45,12 +20,6 @@ services:
       - "${BACKEND_PORT:-8080}:8080"
     networks:
       - portal-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   # Frontend Angular
   frontend:
@@ -63,16 +32,8 @@ services:
       API_URL: ${API_URL:-http://localhost:8080/api}
     ports:
       - "${FRONTEND_PORT:-80}:80"
-    depends_on:
-      backend:
-        condition: service_healthy
     networks:
       - portal-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
 
 networks:
   portal-network:
