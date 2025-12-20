@@ -28,9 +28,7 @@ public class Sistema {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "gestor_id")
-    private Gestor gestor;
+    // Sistema de gestores será implementado futuramente se necessário
 
     @PrePersist
     protected void onCreate() {

@@ -3,7 +3,6 @@ package com.portaldirex.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -31,13 +30,7 @@ public class Usuario {
 
     private String status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "usuario_perfil",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "perfil_id")
-    )
-    private Set<Perfil> perfis;
+    // Sistema de perfis será implementado futuramente se necessário
 
     @PrePersist
     protected void onCreate() {
