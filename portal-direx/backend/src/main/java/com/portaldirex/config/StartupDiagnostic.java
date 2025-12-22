@@ -23,14 +23,14 @@ public class StartupDiagnostic implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         logger.info("========================================");
-        logger.info("DIAGNÓSTICO DA TABELA USUARIOS");
+        logger.info("DIAGNÓSTICO DA TABELA SISTEMA");
         logger.info("========================================");
         
         try {
             // Executa DESCRIBE usuarios
-            List<Map<String, Object>> columns = jdbcTemplate.queryForList("DESCRIBE usuarios");
+            List<Map<String, Object>> columns = jdbcTemplate.queryForList("DESCRIBE sistemas");
             
-            logger.info("Estrutura da tabela 'usuarios':");
+            logger.info("Estrutura da tabela 'sistemas':");
             logger.info("----------------------------------------");
             
             for (Map<String, Object> column : columns) {
@@ -49,12 +49,12 @@ public class StartupDiagnostic implements CommandLineRunner {
             
             // Verifica se a coluna 'senha' existe
             boolean senhaExists = columns.stream()
-                .anyMatch(col -> "senha".equals(col.get("Field")));
+                .anyMatch(col -> "type".equals(col.get("Field")));
             
             if (senhaExists) {
-                logger.info("✓ Coluna 'senha' ENCONTRADA na tabela!");
+                logger.info("✓ Coluna 'type' ENCONTRADA na tabela!");
             } else {
-                logger.error("✗ Coluna 'senha' NÃO ENCONTRADA na tabela!");
+                logger.error("✗ Coluna 'type' NÃO ENCONTRADA na tabela!");
             }
             
             // Mostra o banco de dados conectado
