@@ -10,16 +10,16 @@ import java.util.UUID;
 @Data
 public class Usuario {
     @Id
-    @Column(columnDefinition = "VARCHAR(36)")
+    @Column(name = "id", columnDefinition = "CHAR(36)")
     private String id;
 
-    @Column(nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha", nullable = false, length = 255)
     private String senha;
 
     @Column(name = "dt_criacao")
@@ -28,9 +28,9 @@ public class Usuario {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "status")
     private String status;
 
-    // Sistema de perfis será implementado futuramente se necessário
 
     @PrePersist
     protected void onCreate() {
