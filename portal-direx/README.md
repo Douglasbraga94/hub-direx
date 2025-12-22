@@ -22,7 +22,7 @@ Sistema de Hub de Sistemas Empresarial com autenticação JWT, gestão de usuár
 
 ## Estrutura do Projeto
 
-\`\`\`
+\\\
 portal-direx/
 ├── backend/                           # API Spring Boot
 │   ├── src/main/java/com/portaldirex/
@@ -96,7 +96,7 @@ portal-direx/
 ├── README.md                         # Este arquivo
 
 
-\`\`\`
+\\\
 
 ---
 
