@@ -8,15 +8,10 @@ Sistema de Hub de Sistemas Empresarial com autenticação JWT, gestão de usuár
 - **Java 17** com Spring Boot 3.2.0
 - **Spring Security** com JWT
 - **Spring Data JPA** com MySQL
-- **Bean Validation** para validação de dados
-- **Global Exception Handler** para tratamento de erros padronizado
 
 ### Frontend
 - **Angular 20** (standalone components)
 - **TypeScript**
-- **RxJS** para programação reativa
-- **Guards** para proteção de rotas
-- **Interceptors** para autenticação automática
 
 ### Infraestrutura
 - **Docker** e **Docker Compose**
@@ -94,15 +89,12 @@ portal-direx/
 │   ├── package.json
 │   └── tsconfig.json
 │
-├── init-db/                          # Scripts de inicialização do banco
-│   └── 001_create_tables.sql
 │
 ├── docker-compose.yml                # Orquestração dos containers
 ├── .env                              # Variáveis de ambiente
 ├── .gitignore
 ├── README.md                         # Este arquivo
-├── ANALISE_PROFISSIONAL.md          # Análise técnica e melhorias
-└── GUIA_VALIDACAO_ERROS.md          # Documentação de validações
+
 
 \`\`\`
 
@@ -112,68 +104,19 @@ portal-direx/
 
 ### Autenticação e Autorização
 - Login com email e senha
-- Cadastro de novos usuários
 - Tokens JWT com expiração de 24 horas
 - Senha criptografada com BCrypt
 - Persistência de sessão com localStorage
-- Logout seguro
-- Proteção de rotas com Guards
 
-### Dashboard
-- Hub de sistemas com cards interativos
-- Filtros por tipo (Web, API, Admin)
-- Busca em tempo real por nome ou descrição
-- Card de perfil do usuário com avatar
-- Atividades recentes e atalhos rápidos
-- Design responsivo e moderno
 
 ### Validações e Segurança
 - Validação de email com regex
 - Senha forte (mínimo 8 caracteres, letra maiúscula, minúscula e número)
-- Tratamento padronizado de erros
-- Mensagens de erro amigáveis
-- Proteção contra CORS
-- Headers de segurança
-
----
-
-## Banco de Dados
-
-### Estrutura Principal
-
-**Tabela: usuarios**
-\`\`\`sql
-id VARCHAR(36) PRIMARY KEY
-nome VARCHAR(255)
-email VARCHAR(255) UNIQUE
-senha VARCHAR(255)  -- BCrypt hash
-cpf VARCHAR(11) UNIQUE
-cargo VARCHAR(100)
-setor VARCHAR(100)
-ativo BOOLEAN
-created_at TIMESTAMP
-updated_at TIMESTAMP
-\`\`\`
-
-**Tabela: sistemas**
-\`\`\`sql
-id INT PRIMARY KEY AUTO_INCREMENT
-name VARCHAR(255)
-sigla VARCHAR(50)
-type VARCHAR(50)  -- web, api, admin
-url VARCHAR(500)
-icon VARCHAR(255)
-created_at TIMESTAMP
-updated_at TIMESTAMP
-\`\`\`
 
 ---
 
 ## Configuração e Execução
 
-### Pré-requisitos
-- Docker e Docker Compose instalados
-- Portas disponíveis: 80 (frontend), 8080 (backend), 3306 (MySQL)
 
 ### Configuração do Ambiente
 
@@ -181,16 +124,15 @@ updated_at TIMESTAMP
 
 \`\`\`env
 # Banco de Dados MySQL
-MYSQL_ROOT_PASSWORD=root_password
-MYSQL_DATABASE=db_portal_Direx
-MYSQL_USER=usr_portaldirex
+MYSQL_DATABASE=
+MYSQL_USER=
 MYSQL_PASSWORD="sua_senha_aqui"
 
 # Backend Spring Boot
-DB_HOST=72.60.245.176
+DB_HOST=
 DB_PORT=3306
-DB_NAME=db_portal_Direx
-DB_USER=usr_portaldirex
+DB_NAME=
+DB_USER=
 DB_PASSWORD="sua_senha_aqui"
 
 # JWT Secret (gere uma chave secreta forte)
@@ -356,99 +298,6 @@ Todas as respostas de erro seguem o padrão:
 - **404** - Recurso não encontrado
 - **409** - Conflito (ex: email duplicado)
 - **500** - Erro interno do servidor
-
----
-
-## Desenvolvimento
-
-### Backend - Adicionar Nova Funcionalidade
-
-1. Criar a entidade em `model/`
-2. Criar o repository em `repository/`
-3. Criar o service em `service/`
-4. Criar o controller em `controller/`
-5. Adicionar validações nos DTOs
-6. Documentar no README
-
-### Frontend - Adicionar Nova Tela
-
-1. Criar componente em `features/`
-2. Adicionar rota em `app.routes.ts`
-3. Criar serviço se necessário em `core/services/`
-4. Adicionar guard se for rota protegida
-5. Atualizar navegação
-
----
-
-## Segurança
-
-### Implementado
-- Autenticação JWT
-- Senha criptografada com BCrypt (custo 12)
-- Validação de dados com Bean Validation
-- CORS configurado
-- SQL Injection protegido (JPA)
-- XSS protegido (sanitização automática do Angular)
-
-### Recomendações para Produção
-- **HTTPS obrigatório** - Configure certificado SSL
-- **Rate Limiting** - Limite requisições por IP
-- **Logging** - Monitore acessos suspeitos
-- **Backup** - Configure backup automático do banco
-- **Secrets** - Use variáveis de ambiente para senhas
-- **Firewall** - Restrinja acesso ao banco
-
----
-
-## Troubleshooting
-
-### Backend não conecta ao MySQL
-\`\`\`bash
-# Verificar senha no .env (senhas com # precisam de aspas)
-MYSQL_PASSWORD="#SuaSenha" ✅
-MYSQL_PASSWORD=#SuaSenha ❌
-
-# Verificar se o MySQL está rodando
-docker-compose ps
-
-# Ver logs do MySQL
-docker-compose logs mysql
-\`\`\`
-
-### Frontend não carrega
-\`\`\`bash
-# Verificar build do Angular
-docker-compose logs frontend
-
-# Verificar se o Nginx está rodando
-docker exec -it portal-direx-frontend sh
-ls -la /usr/share/nginx/html/
-\`\`\`
-
-### Erro "Connection refused"
-\`\`\`bash
-# Backend ainda está iniciando, aguarde 30-60 segundos
-docker-compose logs -f backend
-\`\`\`
-
-### Limpar tudo e recomeçar
-\`\`\`bash
-docker-compose down -v
-docker system prune -a
-docker-compose up -d --build
-\`\`\`
-
----
-
-## Licença
-
-Este projeto é proprietário e confidencial.
-
----
-
-## Contato
-
-Para dúvidas ou suporte, entre em contato com a equipe de desenvolvimento.
 
 ---
 
