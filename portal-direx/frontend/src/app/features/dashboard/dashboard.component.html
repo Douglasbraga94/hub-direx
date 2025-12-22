@@ -15,7 +15,6 @@
       </div>
     </div>
 
-    <!-- Adicionando card de usuário e botão de sair -->
     <div class="controls">
       <div class="user-card">
         <div class="user-avatar">{{ getUserInitial() }}</div>
@@ -35,7 +34,6 @@
     </div>
   </header>
 
-  <!-- Search and Filters -->
   <div class="controls-row">
     <div class="search" role="search" aria-label="Busca de sistemas">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.9">
@@ -49,7 +47,6 @@
       />
     </div>
 
-    <!-- Adicionando eventos de clique e binding de classe active nos filtros -->
     <div class="filters" role="list">
       <button 
         class="chip" 
@@ -103,7 +100,7 @@
               <circle cx="12" cy="12" r="6" stroke="white" stroke-opacity="0.95" stroke-width="1.2"/>
             </svg>
           </div>
-          <div>
+          <div style="display: flex; flex-direction: column; min-width: 0; flex: 1;">
             <h3>{{ sistema.nome }}</h3>
             <p>{{ sistema.sigla }}</p>
           </div>
