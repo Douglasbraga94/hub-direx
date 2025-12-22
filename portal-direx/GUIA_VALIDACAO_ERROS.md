@@ -14,7 +14,7 @@ Criado um tratador global de exceções que padroniza todas as respostas de erro
 Tratamento automático de erros de validação do Bean Validation.
 
 **Exemplo de resposta:**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 400,
@@ -26,20 +26,20 @@ Tratamento automático de erros de validação do Bean Validation.
     "senha": "Senha deve ter entre 6 e 100 caracteres"
   }
 }
-```
+\`\`\`
 
 #### BusinessException (HTTP 400)
 Para erros de regras de negócio.
 
 **Exemplo de uso:**
-```java
+\`\`\`java
 if (usuarioRepository.existsByEmail(email)) {
     throw new BusinessException("Este email já está cadastrado no sistema");
 }
-```
+\`\`\`
 
 **Resposta:**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 400,
@@ -47,19 +47,19 @@ if (usuarioRepository.existsByEmail(email)) {
   "message": "Este email já está cadastrado no sistema",
   "path": "/api/auth/cadastro"
 }
-```
+\`\`\`
 
 #### ResourceNotFoundException (HTTP 404)
 Para quando um recurso não é encontrado.
 
 **Exemplo de uso:**
-```java
+\`\`\`java
 return sistemaRepository.findById(id)
     .orElseThrow(() -> new ResourceNotFoundException("Sistema", "id", id));
-```
+\`\`\`
 
 **Resposta:**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 404,
@@ -67,13 +67,13 @@ return sistemaRepository.findById(id)
   "message": "Sistema não encontrado(a) com id: '123'",
   "path": "/api/sistemas/123"
 }
-```
+\`\`\`
 
 #### BadCredentialsException / UsernameNotFoundException (HTTP 401)
 Para erros de autenticação.
 
 **Resposta:**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 401,
@@ -81,13 +81,13 @@ Para erros de autenticação.
   "message": "Email ou senha inválidos",
   "path": "/api/auth/login"
 }
-```
+\`\`\`
 
 #### Exception (HTTP 500)
 Tratamento genérico para erros não esperados.
 
 **Resposta:**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 500,
@@ -95,14 +95,14 @@ Tratamento genérico para erros não esperados.
   "message": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.",
   "path": "/api/sistemas"
 }
-```
+\`\`\`
 
 ---
 
 ### 2. Validações Implementadas
 
 #### LoginRequest
-```java
+\`\`\`java
 @NotBlank(message = "Email é obrigatório")
 @Email(message = "Formato de email inválido")
 private String email;
@@ -110,10 +110,10 @@ private String email;
 @NotBlank(message = "Senha é obrigatória")
 @Size(min = 6, max = 100, message = "Senha deve ter entre 6 e 100 caracteres")
 private String senha;
-```
+\`\`\`
 
 #### CadastroRequest
-```java
+\`\`\`java
 @NotBlank(message = "Nome é obrigatório")
 @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
 private String nome;
@@ -129,7 +129,7 @@ private String email;
     message = "Senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número"
 )
 private String senha;
-```
+\`\`\`
 
 ---
 
@@ -137,7 +137,7 @@ private String senha;
 
 Atualize o `AuthService` no Angular para tratar os erros padronizados:
 
-```typescript
+\`\`\`typescript
 // frontend/src/app/core/services/auth.service.ts
 
 login(email: string, senha: string): Observable<AuthResponse> {
@@ -154,7 +154,7 @@ login(email: string, senha: string): Observable<AuthResponse> {
       })
     );
 }
-```
+\`\`\`
 
 ---
 
@@ -163,17 +163,17 @@ login(email: string, senha: string): Observable<AuthResponse> {
 ### 1. Teste de Validação de Email Inválido
 
 **Request:**
-```bash
+\`\`\`bash
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "emailinvalido",
     "senha": "123456"
   }'
-```
+\`\`\`
 
 **Resposta esperada (400):**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 400,
@@ -184,14 +184,14 @@ curl -X POST http://localhost:8080/api/auth/login \
     "email": "Formato de email inválido"
   }
 }
-```
+\`\`\`
 
 ---
 
 ### 2. Teste de Senha Fraca
 
 **Request:**
-```bash
+\`\`\`bash
 curl -X POST http://localhost:8080/api/auth/cadastro \
   -H "Content-Type: application/json" \
   -d '{
@@ -199,10 +199,10 @@ curl -X POST http://localhost:8080/api/auth/cadastro \
     "email": "joao@example.com",
     "senha": "123456"
   }'
-```
+\`\`\`
 
 **Resposta esperada (400):**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 400,
@@ -213,14 +213,14 @@ curl -X POST http://localhost:8080/api/auth/cadastro \
     "senha": "Senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número"
   }
 }
-```
+\`\`\`
 
 ---
 
 ### 3. Teste de Email Duplicado
 
 **Request:**
-```bash
+\`\`\`bash
 curl -X POST http://localhost:8080/api/auth/cadastro \
   -H "Content-Type: application/json" \
   -d '{
@@ -228,10 +228,10 @@ curl -X POST http://localhost:8080/api/auth/cadastro \
     "email": "teste@direx.com",
     "senha": "Senha123"
   }'
-```
+\`\`\`
 
 **Resposta esperada (400):**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 400,
@@ -239,20 +239,20 @@ curl -X POST http://localhost:8080/api/auth/cadastro \
   "message": "Este email já está cadastrado no sistema",
   "path": "/api/auth/cadastro"
 }
-```
+\`\`\`
 
 ---
 
 ### 4. Teste de Sistema Não Encontrado
 
 **Request:**
-```bash
+\`\`\`bash
 curl -X GET http://localhost:8080/api/sistemas/99999 \
   -H "Authorization: Bearer SEU_TOKEN"
-```
+\`\`\`
 
 **Resposta esperada (404):**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 404,
@@ -260,24 +260,24 @@ curl -X GET http://localhost:8080/api/sistemas/99999 \
   "message": "Sistema não encontrado(a) com id: '99999'",
   "path": "/api/sistemas/99999"
 }
-```
+\`\`\`
 
 ---
 
 ### 5. Teste de Credenciais Inválidas
 
 **Request:**
-```bash
+\`\`\`bash
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "teste@direx.com",
     "senha": "senhaerrada"
   }'
-```
+\`\`\`
 
 **Resposta esperada (401):**
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 401,
@@ -285,7 +285,7 @@ curl -X POST http://localhost:8080/api/auth/login \
   "message": "Email ou senha inválidos",
   "path": "/api/auth/login"
 }
-```
+\`\`\`
 
 ---
 

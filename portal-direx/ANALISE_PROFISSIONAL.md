@@ -35,10 +35,10 @@
 ### 1. Segurança - CRÍTICO ⚠️
 
 #### Problema: Senhas em texto plano no tráfego
-```
+\`\`\`
 Status: VULNERÁVEL
 Risco: Alto
-```
+\`\`\`
 
 **Recomendação:**
 - Implementar **HTTPS/TLS** em produção (obrigatório)
@@ -46,10 +46,10 @@ Risco: Alto
 - Nunca transmitir dados sensíveis sem criptografia
 
 #### Problema: JWT Secret exposto em variável de ambiente
-```
+\`\`\`
 Arquivo: .env
 jwt.secret=${JWT_SECRET}
-```
+\`\`\`
 
 **Recomendação:**
 - Usar **gerenciador de segredos** (AWS Secrets Manager, HashiCorp Vault)
@@ -63,12 +63,12 @@ jwt.secret=${JWT_SECRET}
 #### Backend - Falta padronização
 
 **Problema atual:**
-```java
+\`\`\`java
 throw new RuntimeException("Credenciais inválidas");
-```
+\`\`\`
 
 **Recomendação profissional:**
-```java
+\`\`\`java
 // Criar exceptions customizadas
 public class InvalidCredentialsException extends RuntimeException { }
 public class ResourceNotFoundException extends RuntimeException { }
@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
         );
     }
 }
-```
+\`\`\`
 
 **Benefícios:**
 - Respostas de erro padronizadas
@@ -98,14 +98,14 @@ public class GlobalExceptionHandler {
 #### Backend - Falta validação
 
 **Problema atual:**
-```java
+\`\`\`java
 public AuthResponse cadastro(CadastroRequest request) {
     // Sem validação de email, senha forte, etc
 }
-```
+\`\`\`
 
 **Recomendação profissional:**
-```java
+\`\`\`java
 // No DTO
 public class CadastroRequest {
     @NotBlank(message = "Nome é obrigatório")
@@ -127,7 +127,7 @@ public class CadastroRequest {
 public ResponseEntity<AuthResponse> cadastro(@Valid @RequestBody CadastroRequest request) {
     // Spring valida automaticamente
 }
-```
+\`\`\`
 
 ---
 
@@ -136,7 +136,7 @@ public ResponseEntity<AuthResponse> cadastro(@Valid @RequestBody CadastroRequest
 **Problema:** Logs insuficientes para debug em produção
 
 **Recomendação profissional:**
-```java
+\`\`\`java
 @Slf4j // Lombok
 @Service
 public class AuthService {
@@ -160,7 +160,7 @@ public class AuthService {
         }
     }
 }
-```
+\`\`\`
 
 **Ferramentas profissionais:**
 - **ELK Stack** (Elasticsearch + Logstash + Kibana)
@@ -176,7 +176,7 @@ public class AuthService {
 
 **Recomendação profissional:**
 
-```java
+\`\`\`java
 // Testes Unitários
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -224,10 +224,10 @@ class AuthControllerIntegrationTest {
             .andExpect(jsonPath("$.token").exists());
     }
 }
-```
+\`\`\`
 
 **Frontend - Testes Angular:**
-```typescript
+\`\`\`typescript
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
@@ -253,7 +253,7 @@ describe('AuthService', () => {
     req.flush(mockResponse);
   });
 });
-```
+\`\`\`
 
 ---
 
@@ -263,16 +263,16 @@ describe('AuthService', () => {
 
 **Recomendação profissional:**
 
-```xml
+\`\`\`xml
 <!-- pom.xml -->
 <dependency>
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
     <version>2.2.0</version>
 </dependency>
-```
+\`\`\`
 
-```java
+\`\`\`java
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Autenticação", description = "Endpoints de autenticação e cadastro")
@@ -289,7 +289,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 }
-```
+\`\`\`
 
 **Acesso:** http://localhost:8080/swagger-ui.html
 
@@ -299,15 +299,15 @@ public class AuthController {
 
 **Recomendação profissional:**
 
-```xml
+\`\`\`xml
 <!-- Spring Boot Actuator -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
-```
+\`\`\`
 
-```properties
+\`\`\`properties
 # application.properties
 management.endpoints.web.exposure.include=health,info,metrics,prometheus
 management.endpoint.health.show-details=always

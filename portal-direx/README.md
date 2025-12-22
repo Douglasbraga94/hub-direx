@@ -27,7 +27,7 @@ Sistema de Hub de Sistemas Empresarial com autenticação JWT, gestão de usuár
 
 ## Estrutura do Projeto
 
-```
+\`\`\`
 portal-direx/
 ├── backend/                           # API Spring Boot
 │   ├── src/main/java/com/portaldirex/
@@ -104,7 +104,7 @@ portal-direx/
 ├── ANALISE_PROFISSIONAL.md          # Análise técnica e melhorias
 └── GUIA_VALIDACAO_ERROS.md          # Documentação de validações
 
-```
+\`\`\`
 
 ---
 
@@ -142,7 +142,7 @@ portal-direx/
 ### Estrutura Principal
 
 **Tabela: usuarios**
-```sql
+\`\`\`sql
 id VARCHAR(36) PRIMARY KEY
 nome VARCHAR(255)
 email VARCHAR(255) UNIQUE
@@ -153,10 +153,10 @@ setor VARCHAR(100)
 ativo BOOLEAN
 created_at TIMESTAMP
 updated_at TIMESTAMP
-```
+\`\`\`
 
 **Tabela: sistemas**
-```sql
+\`\`\`sql
 id INT PRIMARY KEY AUTO_INCREMENT
 name VARCHAR(255)
 sigla VARCHAR(50)
@@ -165,7 +165,7 @@ url VARCHAR(500)
 icon VARCHAR(255)
 created_at TIMESTAMP
 updated_at TIMESTAMP
-```
+\`\`\`
 
 ---
 
@@ -179,7 +179,7 @@ updated_at TIMESTAMP
 
 1. **Criar arquivo `.env`** na raiz do projeto:
 
-```env
+\`\`\`env
 # Banco de Dados MySQL
 MYSQL_ROOT_PASSWORD=root_password
 MYSQL_DATABASE=db_portal_Direx
@@ -198,11 +198,11 @@ JWT_SECRET=sua_chave_secreta_muito_segura_e_longa_aqui_min_256_bits
 
 # Frontend
 API_URL=http://localhost:8080/api
-```
+\`\`\`
 
 ### Executar o Projeto
 
-```bash
+\`\`\`bash
 # 1. Clone o repositório
 git clone <seu-repositorio>
 cd portal-direx
@@ -218,21 +218,21 @@ docker-compose logs -f
 # 5. Acesse a aplicação
 # Frontend: http://localhost
 # Backend: http://localhost:8080/api
-```
+\`\`\`
 
 ### Parar e Remover
 
-```bash
+\`\`\`bash
 # Parar containers
 docker-compose down
 
 # Parar e remover volumes (apaga dados do banco)
 docker-compose down -v
-```
+\`\`\`
 
 ### Reconstruir após mudanças
 
-```bash
+\`\`\`bash
 # Reconstruir apenas o backend
 docker-compose build --no-cache backend
 docker-compose up -d backend
@@ -245,7 +245,7 @@ docker-compose up -d frontend
 docker-compose down
 docker-compose build --no-cache
 docker-compose up -d
-```
+\`\`\`
 
 ---
 
@@ -254,7 +254,7 @@ docker-compose up -d
 ### Autenticação
 
 **POST** `/api/auth/login`
-```json
+\`\`\`json
 Request:
 {
   "email": "usuario@example.com",
@@ -272,10 +272,10 @@ Response:
     "setor": "TI"
   }
 }
-```
+\`\`\`
 
 **POST** `/api/auth/cadastro`
-```json
+\`\`\`json
 Request:
 {
   "nome": "João Silva",
@@ -287,12 +287,12 @@ Request:
 }
 
 Response: (mesmo formato do login)
-```
+\`\`\`
 
 ### Sistemas
 
 **GET** `/api/sistemas`
-```json
+\`\`\`json
 Headers:
 Authorization: Bearer {token}
 
@@ -307,10 +307,10 @@ Response:
     "icon": "shopping_cart"
   }
 ]
-```
+\`\`\`
 
 **GET** `/api/sistemas/{id}`
-```json
+\`\`\`json
 Headers:
 Authorization: Bearer {token}
 
@@ -323,7 +323,7 @@ Response:
   "url": "https://vendas.exemplo.com",
   "icon": "shopping_cart"
 }
-```
+\`\`\`
 
 ---
 
@@ -331,7 +331,7 @@ Response:
 
 Todas as respostas de erro seguem o padrão:
 
-```json
+\`\`\`json
 {
   "timestamp": "2025-12-19T18:30:00",
   "status": 400,
@@ -345,7 +345,7 @@ Todas as respostas de erro seguem o padrão:
     }
   ]
 }
-```
+\`\`\`
 
 ### Códigos HTTP
 - **200** - Sucesso
@@ -403,7 +403,7 @@ Todas as respostas de erro seguem o padrão:
 ## Troubleshooting
 
 ### Backend não conecta ao MySQL
-```bash
+\`\`\`bash
 # Verificar senha no .env (senhas com # precisam de aspas)
 MYSQL_PASSWORD="#SuaSenha" ✅
 MYSQL_PASSWORD=#SuaSenha ❌
@@ -413,30 +413,30 @@ docker-compose ps
 
 # Ver logs do MySQL
 docker-compose logs mysql
-```
+\`\`\`
 
 ### Frontend não carrega
-```bash
+\`\`\`bash
 # Verificar build do Angular
 docker-compose logs frontend
 
 # Verificar se o Nginx está rodando
 docker exec -it portal-direx-frontend sh
 ls -la /usr/share/nginx/html/
-```
+\`\`\`
 
 ### Erro "Connection refused"
-```bash
+\`\`\`bash
 # Backend ainda está iniciando, aguarde 30-60 segundos
 docker-compose logs -f backend
-```
+\`\`\`
 
 ### Limpar tudo e recomeçar
-```bash
+\`\`\`bash
 docker-compose down -v
 docker system prune -a
 docker-compose up -d --build
-```
+\`\`\`
 
 ---
 

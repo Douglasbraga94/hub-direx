@@ -2,15 +2,15 @@
 
 ## 🔴 Erro Atual
 
-```
+\`\`\`
 Caused by: java.net.ConnectException: Connection refused
-```
+\`\`\`
 
 E anteriormente:
 
-```
+\`\`\`
 Host '45.224.198.56' is blocked because of many connection errors
-```
+\`\`\`
 
 ## 📋 O Que Está Acontecendo
 
@@ -25,7 +25,7 @@ Host '45.224.198.56' is blocked because of many connection errors
 
 **Execute no servidor MySQL (72.60.245.176):**
 
-```bash
+\`\`\`bash
 # Conectar ao MySQL como root
 mysql -u root -p
 
@@ -41,13 +41,13 @@ FLUSH PRIVILEGES;
 
 # Sair
 EXIT;
-```
+\`\`\`
 
 **Ou via linha de comando:**
 
-```bash
+\`\`\`bash
 mysqladmin flush-hosts -h 72.60.245.176 -u root -p
-```
+\`\`\`
 
 ---
 
@@ -55,7 +55,7 @@ mysqladmin flush-hosts -h 72.60.245.176 -u root -p
 
 **Teste a conexão do seu computador:**
 
-```bash
+\`\`\`bash
 # Instalar cliente MySQL se não tiver
 # Mac: brew install mysql-client
 # Linux: sudo apt-get install mysql-client
@@ -65,7 +65,7 @@ mysql -h 72.60.245.176 -P 3306 -u usr_portaldirex -p'#Usr8dbDIREX' db_portal_Dir
 
 # Se conectar com sucesso, teste uma query
 SELECT COUNT(*) FROM sistemas;
-```
+\`\`\`
 
 **Se NÃO conectar:**
 - A senha está incorreta
@@ -78,7 +78,7 @@ SELECT COUNT(*) FROM sistemas;
 
 **No servidor MySQL, verifique se a porta 3306 está aberta:**
 
-```bash
+\`\`\`bash
 # Verificar se o MySQL está escutando em todas as interfaces
 sudo netstat -tlnp | grep 3306
 
@@ -87,11 +87,11 @@ sudo netstat -tlnp | grep 3306
 # Verificar firewall
 sudo ufw status
 sudo ufw allow 3306/tcp
-```
+\`\`\`
 
 **Editar configuração do MySQL se necessário:**
 
-```bash
+\`\`\`bash
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Encontrar e alterar:
@@ -101,7 +101,7 @@ bind-address = 0.0.0.0
 
 # Reiniciar MySQL
 sudo systemctl restart mysql
-```
+\`\`\`
 
 ---
 
@@ -109,7 +109,7 @@ sudo systemctl restart mysql
 
 **Se não conseguir acessar o MySQL remoto, use um banco local:**
 
-```yaml
+\`\`\`yaml
 # Adicionar ao docker-compose.yml
 services:
   mysql:
@@ -130,27 +130,27 @@ services:
 
 volumes:
   mysql-data:
-```
+\`\`\`
 
 **Atualizar .env:**
 
-```bash
+\`\`\`bash
 DB_HOST=mysql
 DB_PORT=3306
 DB_NAME=db_portal_Direx
 DB_USER=usr_portaldirex
 DB_PASSWORD="Usr8dbDIREX"
-```
+\`\`\`
 
 **Importar dados do banco remoto:**
 
-```bash
+\`\`\`bash
 # Exportar do servidor remoto
 mysqldump -h 72.60.245.176 -u usr_portaldirex -p'#Usr8dbDIREX' db_portal_Direx > backup.sql
 
 # Importar no container local
 docker exec -i portal-direx-mysql mysql -u usr_portaldirex -pUsr8dbDIREX db_portal_Direx < backup.sql
-```
+\`\`\`
 
 ---
 
@@ -158,7 +158,7 @@ docker exec -i portal-direx-mysql mysql -u usr_portaldirex -pUsr8dbDIREX db_port
 
 **Após desbloquear o IP, teste:**
 
-```bash
+\`\`\`bash
 # 1. Parar containers
 docker-compose down
 
@@ -170,15 +170,15 @@ docker-compose up -d
 
 # 4. Ver logs do backend
 docker-compose logs -f backend
-```
+\`\`\`
 
 **Logs de sucesso devem mostrar:**
 
-```
+\`\`\`
 HikariPool-1 - Starting...
 HikariPool-1 - Start completed.
 Started PortalDirexApplication in 5.234 seconds
-```
+\`\`\`
 
 ---
 
@@ -186,14 +186,14 @@ Started PortalDirexApplication in 5.234 seconds
 
 **1. Aumentar limite de erros no MySQL:**
 
-```sql
+\`\`\`sql
 -- No servidor MySQL
 SET GLOBAL max_connect_errors = 1000;
-```
+\`\`\`
 
 **2. Adicionar retry no Spring Boot:**
 
-```properties
+\`\`\`properties
 # application.properties
 spring.datasource.hikari.connection-timeout=30000
 spring.datasource.hikari.maximum-pool-size=10

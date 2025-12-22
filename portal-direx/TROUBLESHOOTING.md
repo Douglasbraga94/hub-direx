@@ -14,14 +14,14 @@ Docker está usando cache antigo das imagens
 
 **Opção 1: Script Automático (Recomendado)**
 
-```bash
+\`\`\`bash
 chmod +x rebuild-backend-completo.sh
 ./rebuild-backend-completo.sh
-```
+\`\`\`
 
 **Opção 2: Comandos Manuais**
 
-```bash
+\`\`\`bash
 # 1. Parar tudo
 docker-compose down
 
@@ -39,17 +39,17 @@ docker-compose up -d
 
 # 6. Ver logs
 docker-compose logs -f backend
-```
+\`\`\`
 
 ---
 
 ## Problema: Connection refused ao MySQL
 
 ### Sintoma
-```
+\`\`\`
 Communications link failure
 Connection refused
-```
+\`\`\`
 
 ### Possíveis Causas
 
@@ -68,7 +68,7 @@ Connection refused
 
 **Para senha com #:**
 
-```bash
+\`\`\`bash
 # Editar .env
 nano .env
 
@@ -79,27 +79,27 @@ DB_PASSWORD="%23Usr8dbDIREX"
 
 # Reiniciar
 docker-compose restart backend
-```
+\`\`\`
 
 **Para IP bloqueado:**
 
 Contate o administrador do MySQL para executar:
 
-```sql
+\`\`\`sql
 -- No servidor MySQL
 FLUSH HOSTS;
-```
+\`\`\`
 
 **Testar conexão manualmente:**
 
-```bash
+\`\`\`bash
 # Do container backend
 docker exec -it portal-direx-backend bash
 mysql -h 72.60.245.176 -u usr_portaldirex -p#Usr8dbDIREX db_portal_Direx
 
 # Do host
 mysql -h 72.60.245.176 -u usr_portaldirex -p#Usr8dbDIREX db_portal_Direx
-```
+\`\`\`
 
 ---
 
@@ -113,27 +113,27 @@ mysql -h 72.60.245.176 -u usr_portaldirex -p#Usr8dbDIREX db_portal_Direx
 
 1. **Dependência no pom.xml:**
 
-```xml
+\`\`\`xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-validation</artifactId>
 </dependency>
-```
+\`\`\`
 
 2. **@Valid no Controller:**
 
-```java
+\`\`\`java
 @PostMapping("/login")
 public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request)
-```
+\`\`\`
 
 3. **Anotações no DTO:**
 
-```java
+\`\`\`java
 @NotBlank(message = "Email é obrigatório")
 @Email(message = "Email inválido")
 private String email;
-```
+\`\`\`
 
 ---
 
@@ -147,10 +147,10 @@ private String email;
 
 1. **Anotação @RestControllerAdvice presente:**
 
-```java
+\`\`\`java
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-```
+\`\`\`
 
 2. **Package correto:**
    - Deve estar em `com.portaldirex.exception`
@@ -158,10 +158,10 @@ public class GlobalExceptionHandler {
 
 3. **Exceção tem @ExceptionHandler:**
 
-```java
+\`\`\`java
 @ExceptionHandler(BusinessException.class)
 public ResponseEntity<ErrorResponse> handleBusinessException(...)
-```
+\`\`\`
 
 4. **Rebuild do backend:**
    - Execute `./rebuild-backend-completo.sh`
@@ -179,30 +179,30 @@ public ResponseEntity<ErrorResponse> handleBusinessException(...)
 
 1. **API_URL no frontend:**
 
-```bash
+\`\`\`bash
 # Ver variáveis de ambiente do container
 docker exec -it portal-direx-frontend env | grep API
 
 # Deve mostrar:
 API_URL=http://localhost:8080/api
-```
+\`\`\`
 
 2. **CORS no backend:**
 
-```java
+\`\`\`java
 // SecurityConfig.java
 .cors(cors -> cors.configurationSource(request -> {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowedOrigins(Arrays.asList("http://localhost", "http://localhost:80"));
     // ...
 }))
-```
+\`\`\`
 
 3. **Backend está rodando:**
 
-```bash
+\`\`\`bash
 curl http://localhost:8080/api/sistemas
-```
+\`\`\`
 
 ---
 
@@ -216,25 +216,25 @@ curl http://localhost:8080/api/sistemas
 
 1. **Senha está criptografada no banco:**
 
-```sql
+\`\`\`sql
 SELECT id, nome, email, senha FROM usuarios;
 -- A senha deve começar com $2a$ (BCrypt)
-```
+\`\`\`
 
 2. **BCrypt configurado no SecurityConfig:**
 
-```java
+\`\`\`java
 @Bean
 public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
 }
-```
+\`\`\`
 
 3. **Cadastro criptografa senha:**
 
-```java
+\`\`\`java
 usuario.setSenha(passwordEncoder.encode(request.getSenha()));
-```
+\`\`\`
 
 ---
 
@@ -242,7 +242,7 @@ usuario.setSenha(passwordEncoder.encode(request.getSenha()));
 
 ### Docker
 
-```bash
+\`\`\`bash
 # Ver logs em tempo real
 docker-compose logs -f
 
@@ -265,11 +265,11 @@ docker exec -it portal-direx-frontend sh
 # Limpar tudo (cuidado!)
 docker-compose down -v
 docker system prune -af
-```
+\`\`\`
 
 ### Banco de Dados
 
-```bash
+\`\`\`bash
 # Conectar ao MySQL
 mysql -h 72.60.245.176 -u usr_portaldirex -p db_portal_Direx
 
@@ -278,11 +278,11 @@ SHOW TABLES;
 SELECT * FROM usuarios;
 SELECT * FROM sistemas;
 DESCRIBE usuarios;
-```
+\`\`\`
 
 ### Maven (dentro do container backend)
 
-```bash
+\`\`\`bash
 docker exec -it portal-direx-backend bash
 
 # Rodar testes
@@ -293,7 +293,7 @@ docker exec -it portal-direx-backend bash
 
 # Pular testes
 ./mvnw clean package -DskipTests
-```
+\`\`\`
 
 ---
 
@@ -318,29 +318,29 @@ Quando algo não funciona, siga esta ordem:
 
 ### Backend Iniciou Corretamente
 
-```
+\`\`\`
 Started PortalDirexApplication in X.XXX seconds
-```
+\`\`\`
 
 ### Problema de Conexão MySQL
 
-```
+\`\`\`
 Communications link failure
 Connection refused
-```
+\`\`\`
 
 ### GlobalExceptionHandler Carregado
 
-```
+\`\`\`
 Mapped "{[/error]}" onto ...
 Bean 'globalExceptionHandler' ...
-```
+\`\`\`
 
 ### Validação Funcionando
 
-```
+\`\`\`
 MethodArgumentNotValidException
-```
+\`\`\`
 
 ---
 
