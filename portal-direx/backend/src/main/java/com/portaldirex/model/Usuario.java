@@ -19,7 +19,7 @@ public class Usuario {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "senha", nullable = false, length = 255)
+    @Column(name = "password", nullable = false, length = 255)
     private String senha;
 
     @Column(name = "dt_criacao")
@@ -31,6 +31,7 @@ public class Usuario {
     @Column(name = "status")
     private String status;
 
+    // Sistema de perfis será implementado futuramente se necessário
 
     @PrePersist
     protected void onCreate() {
