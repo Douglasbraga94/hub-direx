@@ -9,26 +9,25 @@ import java.time.LocalDateTime;
 @Data
 public class Sistema {
     @Id
-    @Column(columnDefinition = "VARCHAR(36)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String nome;
 
     private String sigla;
 
+    @Column(nullable = false)
     private String url;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "gestor_id", nullable = false)
+    private Long gestorId;
 
     @Column(name = "dt_criacao")
     private LocalDateTime dtCriacao;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    // Sistema de gestores será implementado futuramente se necessário
 
     @PrePersist
     protected void onCreate() {
