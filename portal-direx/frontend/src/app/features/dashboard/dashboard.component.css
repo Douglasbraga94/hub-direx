@@ -213,6 +213,8 @@ p.lead {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  overflow: hidden; /* Added overflow hidden to prevent content from escaping */
+  min-width: 0; /* Added min-width 0 to allow flex items to shrink properly */
 }
 
 .card:hover {
@@ -235,17 +237,27 @@ p.lead {
   margin: 0;
   font-size: 15px;
   font-weight: 500;
+  /* Added text overflow handling for long titles */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card p {
   margin: 2px 0 0;
   font-size: 12px;
   color: var(--muted);
+  /* Added text overflow handling */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .meta {
   margin-left: auto;
   text-align: right;
+  /* Added flex-shrink 0 to prevent the badge from being squeezed */
+  flex-shrink: 0;
 }
 
 .status {
@@ -254,6 +266,8 @@ p.lead {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.03);
   color: var(--muted);
+  /* Added white-space nowrap to keep "Online" text in one line */
+  white-space: nowrap;
 }
 
 .status.up {
