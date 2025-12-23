@@ -87,7 +87,12 @@
         <div class="muted">Mostrando <span id="count">{{ filteredSistemas.length }}</span> itens</div>
       </div>
 
-      <div class="grid">
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="spinner"></div>
+        <p class="loading-text">Carregando sistemas...</p>
+      </div>
+
+      <div *ngIf="!isLoading" class="grid">
         <a
           *ngFor="let sistema of filteredSistemas"
           [href]="sistema.url"
