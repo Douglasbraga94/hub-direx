@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   sistemas: Sistema[] = []
   searchQuery = ""
   activeFilter: "all" | "web" | "api" | "admin" = "all"
+  isLoading = false
 
   ngOnInit(): void {
     this.user = this.authService.getCurrentUser()
@@ -26,12 +27,15 @@ export class DashboardComponent implements OnInit {
   }
 
   loadSistemas(): void {
+    this.isLoading = true
     this.sistemasService.getSistemas().subscribe({
       next: (data) => {
         this.sistemas = data
+        this.isLoading = false
       },
       error: (err) => {
         console.error("Erro ao carregar sistemas:", err)
+        this.isLoading = false
       },
     })
   }
